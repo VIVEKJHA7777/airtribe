@@ -1,7 +1,17 @@
 require('dotenv').config();
 var mysql = require('mysql');
-
-const con = mysql.createConnection({
+var con=mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+});
+con.connect(err=>{
+  var query=`CREATE DATABASE IF NOT EXISTS ${process.env.DB_DATABASE};`
+  con.query(query,(err,result)=>{
+    if(err) throw err;
+  })
+})
+con = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
