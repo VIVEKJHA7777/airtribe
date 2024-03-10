@@ -1,18 +1,14 @@
-var con=require('./db');
-var schema=require('./SchemaDefination');
-var {createInstructor,createCourses,createLeads,createComment}=schema;
-var list=[createInstructor,createCourses,createLeads,createComment];
+require('dotenv').config();
+var mysql = require('mysql');
 
-function createTables(){
+const con = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
+});
 con.connect(function(err) {
   if (err) throw err;
-  list.forEach((item)=>{
-    con.query(item(),(err,result)=>{
-    if (err) throw err;
-  //  console.log(result);
-   // console.log("Table created");
-  })
-  })
+  console.log("Connected!");
 });
-}
-module.exports = createTables;
+module.exports = con;
