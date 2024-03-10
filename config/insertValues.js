@@ -30,4 +30,6 @@ function insertIntoComment(con,CommentID,LeadID,InstructorID,comment,CommentDate
       console.log('Comment inserted:', result);
     });
 }
+
+
 module.exports ={insertIntoInstructor,insertIntoCourses,insertIntoLeads,insertIntoComment};

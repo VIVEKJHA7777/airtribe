@@ -9,6 +9,7 @@ var con=require('./config/db');
 var app= express();
 createTables();
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -17,6 +18,22 @@ app.get('/',(req,res)=>{
     res.send("server is running");
 })
 //...................................................................................
+
+//create instructors.......................................................
+
+app.post('/api/create_instructor', async (req, res) => {
+    try {
+        const { instructorId,name, email, password } = req.body;
+        
+        // Assuming `insertIntoInstructor` returns the `result` object
+        await insertTables.insertIntoInstructor(con,instructorId,name, email, password);
+        
+        res.status(201).json({ message: 'Instructor created successfully' });
+    } catch (error) {
+        console.error('Error creating instructor:', error);
+        res.status(500).json({ error: 'Failed to create instructor' });
+    }
+});
 
 //..........................................create courses api.......................
 
@@ -115,7 +132,7 @@ app.get('/api/leads', async (req, res) => {
   try {
     const { name, email } = req.query;
 
-    con.query("SELECT * FROM leads WHERE FullName = ? or Email = ?", [name, email], function (err, result, fields) {
+    con.query("SELECT * FROM  Leads WHERE FullName = ? or Email = ?", [name, email], function (err, result, fields) {
       if (err) {
         console.error('Error searching leads:', err);
         res.status(500).json({ error: 'Internal server error' });
